@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="assets/script/vue.global.js"></script>
+</head>
+<body>
+
+    <section id="top">
+
+        <header id="header" class="w-full h-96 box-border">
+
+            <div class="w-full h-full flex justify-center items-center pt-24">
+                <div class="w-full h-full m-auto flex flex-col justify-center items-center">
+                    <h1 id="title" class="w-full h-12 text-center text-3xl font-bold text-white ">Web Design Inspiration Gallery</h1>
+                    <p id="content" class="w-full h-12  text-center text-white">We would like to show your great web design to the world. Submit your website today !!!</p>
+                    <button id="btnSubmit"
+                        class="w-40 h-14 rounded-md bg-green-500 text-white transform scale-90 duration-500 hover:bg-green-700 hover:scale-95 hover:text-black">Submit a Website</button>
+                </div>
+            </div>
+            <div id="navBar" class="w-full h-24 bg-white flex items-center fixed z-10 top-0 right-0 transition-scroll-menu">
+                <div  class="w-4/5 h-24 m-auto flex justify-between items-center">
+                    <button id="menu" class="w-20 h-10 bg-gray-300 text-xl font-semibold rounded-xl
+                                        transition duration-300 hover:bg-gray-600 hover:text-white">
+
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="flex">
+                        <h2 id="logo"
+                            class="flex justify-center text-green-500 font-black mr-10 text-5xl w-52 h-14 relative cursor-pointer">
+                            <a href="#">hotskills</a>
+                            <span></span>
+                        </h2>
+                        <nav class="flex justify-center items-center">
+                            <ul id="nav" class="flex items-center z-20">
+                                <li class=" pr-16">
+                                    <a href="#">Categories</a>
+                                </li>
+                                <li class=" pr-16">
+                                    <a href="#">Submit a website</a>
+                                </li>
+                                <li class=" pr-16">
+                                    <a href="#">Contact us</a>
+                                </li>
+    
+                                <button id="exit"
+                                    class="w-14 h-10 bg-white  text-black text-xl font-semibold  rounded-xl transition duration-300 hover:bg-gray-600 hover:text-white">
+    
+                                    <i class="fas fa-times text-2xl pt-1"></i>
+                                </button>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <button id="login"
+                        class="w-20 h-10 bg-gray-300 text-xl font-semibold rounded-xl transition duration-300 hover:bg-gray-600 hover:text-white">Login</button>
+                </div>
+            </div>
+        </header>
+
+    </section>
+
+    <section id="center" class="bg-indigo-50 w-full">
+        <div class="w-full pb-5">
+            <div class="w-4/5 m-auto">
+                <h2 class="sub-title pt-10 font-medium text-2xl">Latest website design inspiration</h2>
+                <div class="w-full flex justify-end mt-5 mb-7">
+                    <input type="text" placeholder="Search Here (disabled)" disabled class="w-input h-10 pl-3 outline-none border bg-blue-50  drop-shadow-sm">
+                </div>
+                <div id="card" class="flex flex-wrap justify-between gap-y-10 w-full my-5">
+                    
+                
+                    <!-- ============================================== card in new page ============================================================== -->
+                  
+                    <template v-for="(item, index) in newList.info" :key="item.id">
+                        <div v-show="this.oldPage == true" class="sub-card rounded box-border">
+                            <div class="w-full h-1/5 flex justify-center items-center bg-blue-100 pt-1 box-border rounded-t">
+                                <img class="w-5/6 h-12 m-auto block bg-center bg-cover" :src="item.airline[0].logo">
+                            </div>
+                            <div class="content-card w-full h-3/5 cursor-pointer relative">
+                                <img class="content-card-img" :src="this.newList.img[index]">
+                                <p class="detail flex justify-center items-center font-black">Hover for more details</p>
+                                <div class="txt-content-card">
+                                    <p class="w-full h-full flex flex-col justify-center items-center text-white text-xs leading-6 tracking-wide p-5">
+                                        Name: {{item.airline[0].name}} <br>
+                                        Country : {{item.airline[0].country}} <br>
+                                        Slogan : {{item.airline[0].slogan}} <br>
+                                        Established : {{item.airline[0].established}} <br>
+                                        Website : {{item.airline[0].website}}
+                                    </p>
+                                
+                                </div>
+                            </div>
+                            <div class="text-footer w-full h-1/5 flex justify-between items-center text-sm px-4">
+                                <p><b>Name:</b> <span class="text-green-800">{{item.name}}</span></p>
+                                <p><b>Trips:</b> <span class="text-red-600">{{item.trips}}</span></p>
+                            </div>
+                        </div> 
+                    </template>
+
+                    <!-- ====================================== card in old page (pages that was clicked) =====================================-->
+
+                    <template v-for="(item, index) in showOldList.info" :key="item.id">
+                        <div v-show = "this.oldPage == false" class="sub-card rounded box-border">
+                            <div class="w-full h-1/5 flex justify-center items-center bg-blue-100 pt-1 box-border rounded-t">
+                                <img class="w-5/6 h-12 m-auto block bg-center bg-cover" :src="item.airline[0].logo">
+                            </div>
+                            <div class="content-card w-full h-3/5 cursor-pointer relative">             
+                                <img class="content-card-img" :src="this.showOldList.img[index]">
+                                <p class="detail flex justify-center items-center font-black">Hover for more details</p>
+                                <div class="txt-content-card">
+                                    <p class="w-full h-full flex flex-col justify-center items-center text-white text-xs leading-6 tracking-wide p-5">
+                                        Name: {{item.airline[0].name}} <br>
+                                        Country : {{item.airline[0].country}} <br>
+                                        Slogan : {{item.airline[0].slogan}} <br>
+                                        Established : {{item.airline[0].established}} <br>
+                                        Website : {{item.airline[0].website}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="text-footer w-full h-1/5 flex justify-between items-center text-sm px-4">
+                                <p><b>Name:</b> <span class="text-green-800">{{item.name}}</span></p>
+                                <p><b>Trips:</b> <span class="text-red-600">{{item.trips}}</span></p>
+                            </div>
+                        </div>
+                    </template>
+                </div>   
+                
+                <!-- ============================================ button page ============================================================== -->
+
+                <div class="pagination flex items-center">
+                    <button v-show="num!=1" v-on:click="prevPage()" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            &#60;
+                    </button>
+
+
+
+                    <div>
+                        <button v-show="(totalPages >= 1) && (num == 1)" v-on:click="page(1)"
+                            class="w-8 h-8 mr-1 rounded text-xs text-white bg-indigo-500 transform scale-110" disabled>
+                            1
+                        </button>
+                        <button v-show="(totalPages >= 1) && (num != 1)" v-on:click="page(1)" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            1
+                        </button>
+                    </div>
+
+
+
+                    <div>
+                        <button v-show="(totalPages >= 2) && (num == 2)" v-on:click="page(2)" 
+                            class="w-8 h-8 mr-1 rounded text-xs text-white bg-indigo-500 transform scale-110">
+                            2
+                        </button>
+                        <button v-show="(totalPages >= 2) && (num != 2)" v-on:click="page(2)" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            2
+                        </button>
+                    </div>
+
+
+
+                    <div>
+                        <button v-show="(totalPages >= 3) && (num == 3)" v-on:click="page(3)" 
+                            class="w-8 h-8 mr-1 rounded text-xs text-white bg-indigo-500 transform scale-110">
+                            3
+                        </button>
+                        <button v-show="(totalPages >= 3) && (num != 3)" v-on:click="page(3)" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            3
+                        </button>
+                    </div>
+
+
+
+                    <!-- <div>
+                        <button v-show="(totalPages >20) && (num == Math.ceil(totalPages/3))" v-on:click="page(Math.ceil(totalPages/3))" 
+                            class="w-8 h-8 mr-1 rounded text-xs text-white bg-indigo-500 transform scale-110">
+                            {{Math.ceil(totalPages/3)}}
+                        </button>
+                        <button v-show="(totalPages >20) && (num != Math.ceil(totalPages/3))" v-on:click="page(Math.ceil(totalPages/3))" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            {{Math.ceil(totalPages/3)}}
+                        </button>
+                    </div> -->
+
+
+
+                    <div>
+                        <button v-show="(totalPages > 50) && (num == Math.ceil(totalPages/2))" v-on:click="page(Math.ceil(totalPages/2))" 
+                            class="w-8 h-8 mr-1 rounded text-xs text-white bg-indigo-500 transform scale-110">
+                            {{Math.ceil(totalPages/2)}}
+                        </button>
+                        <button v-show="(totalPages > 50) && (num != Math.ceil(totalPages/2))" v-on:click="page(Math.ceil(totalPages/2))" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            {{Math.ceil(totalPages/2)}}
+                        </button>
+                    </div>
+
+
+
+                    <div>
+                        <button v-show="totalPages>10" class="w-8 h-8 mr-1 rounded text-xs bg-gray-200 transform duration-300 cursor-not-allowed" disabled>...</button>
+                    </div>                    
+
+
+                    <div>
+                        <button v-show ="(totalPages) && (num == totalPages)" v-on:click="page(totalPages)" 
+                            class="w-8 h-8 mr-1 rounded text-xs text-white bg-indigo-500 transform scale-110">
+                            {{totalPages}}
+                        </button>
+                        <button v-show ="(totalPages) && (num != totalPages)" v-on:click="page(totalPages)" 
+                            class="w-8 h-8 mr-1 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            {{totalPages}}
+                        </button>
+                    </div>
+
+
+                    <div>
+                        <button v-show ="num!=totalPages" v-on:click="nextPage()" 
+                            class="w-8 h-8 rounded text-xs bg-indigo-200 transform duration-300 hover:bg-indigo-300 hover:scale-110">
+                            &#62;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========================================================= search ======================================================================= -->
+
+                <form @submit.prevent="search"> 
+                    <div class="w-input border-2 border-green-400 rounded mt-5">
+                        <div>
+                            <div>
+                                <input type="number" min="1" :max="this.totalPages" placeholder="Go to Page (type number)" class="w-full h-10 rounded pl-3 outline-none border-none bg-blue-50" 
+                                       v-model = "numSearch">
+                            </div>
+                            <div>
+                                <!-- <input type="button" class="w-input h-10 pl-3 outline-none bg-green-400" value="Search"> -->
+                                <button v-if="numSearch == ''" disabled type="submit" class="w-full h-10 text-white font-black text-sm outline-none border-none rounded-b-sm bg-green-500 transition duration-500 hover:bg-green-700">Search (Go to page)</button>
+                                <button v-else="numSearch != ''" type="submit" class="w-full h-10 text-white font-black text-sm outline-none border-none rounded-b-sm bg-green-500 transition duration-500 hover:bg-green-700">Search (Go to page)</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- ========================================================= show numeric of page ========================================================= -->
+
+                <p v-if="num=='' || num == 1" class="text-xl text-green-700 font-black pt-4">Current page : 1</p>        
+                <p v-else class="text-xl text-green-700 font-black pt-4">Current page : {{this.num}}</p>        
+            </div>
+        </div>
+    </section>
+
+    <section id="footer">
+            <footer id="bottom">
+                <div class="w-full bg-gray-900 relative box-border">
+                    <div class="w-4/5 h-full m-auto flex flex-wrap justify-between py-6">
+                        <div class="w-1/4 h-full col-1">
+                            <h3 class="text-white border-b border-gray-400">THE HOT SKILLS</h3>
+                            <p class="text-gray-400 py-4 hover:text-green-400">
+                                <a href="#" class="no-underline">About</a>
+                            </p>
+                            <p class="text-gray-400 pb-4 hover:text-green-400">
+                                <a href="#" class="no-underline">Contact</a>
+                            </p>
+                            <p class="text-gray-400 pb-4 hover:text-green-400">
+                                <a href="#" class="no-underline">Sign In / Sign Up</a>
+                            </p>
+
+                            <div class="w-full flex items-start gap-2">
+
+                                <a href="#" class="flex justify-center items-center w-8 h-8 rounded-full border-2 border-gray-400 text-gray-400 hover:text-green-400 hover:border-green-400 
+                                                    no-underline">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                        
+
+                                <a href="#" class="flex justify-center items-center w-8 h-8 rounded-full border-2 border-gray-400 text-gray-400 hover:text-green-400 hover:border-green-400 
+                                                    no-underline">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                   
+                                <a href="#" class="flex justify-center items-center w-8 h-8 rounded-full border-2 border-gray-400 text-gray-400 hover:text-green-400 hover:border-green-400 
+                                                    no-underline">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                                
+                                <a href="#" class="flex justify-center items-center w-8 h-8 rounded-full border-2 border-gray-400 text-gray-400 hover:text-green-400 hover:border-green-400 
+                                                    no-underline">
+                                    <i class="fab fa-tumblr"></i>
+                                </a>    
+
+                                <a href="#" class="flex justify-center items-center w-8 h-8 rounded-full border-2 border-gray-400 text-gray-400 hover:text-green-400 hover:border-green-400 
+                                no-underline">
+                                    <i class="fab fa-pinterest-p"></i>
+                                </a>     
+                            
+                                <a href="#" class="flex justify-center items-center w-8 h-8 rounded-full border-2 border-gray-400 text-gray-400 hover:text-green-400 hover:border-green-400 
+                                no-underline">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                  
+                            </div>
+                        </div>
+                        <div class="w-1/4 h-full col-2">
+                            <h3 class="text-white border-b border-gray-400">HOT WEBSITES OF THE WEEK</h3>
+                            <p class="text-gray-400 py-4">
+                                Subscribe to receive inspiration ideas and news in your inbox. 
+                            </p>
+ 
+                            <input type="text" placeholder="Enter your email" class="text-black outline-none border-none bg-indigo-100 w-full h-10 px-3">
+                            
+                            <button class="w-40 h-10 mt-3 text-white font-black text-sm rounded bg-green-500 transition duration-500 hover:bg-green-700">SUBSCRIBE</button>
+                                 
+                        </div>
+                        <div class="w-2/6 h-full col-3">
+                            <h3 class="text-white border-b border-gray-400">WHAT'S NEW</h3>
+                            <div class="row-col-3 w-full h-full flex justify-between py-4">
+                                <div class="w-2/4 h-full">
+                                    <a href="#">
+                                        <img src="news.jpg" class="bg-center bg-cover">
+                                    </a>
+                                </div>
+                                <div class="w-2/4 h-full px-3">
+                                    <p class="text-gray-400 text-justify text-sm"><span class="text-xl text-white text-green-400">Thehotskills</span> is a showcase of the creative and interactive design and community of the world's best designers, developers and creative agencies.</p>
+                                </div>
+                            </div>     
+                        </div>
+                    </div>
+                    <div id="copyRight" class="w-full bg-white text-center py-4">
+                        <p>Copyright &copy;2015 <span class="text-green-400 font-black">Thehotskills</span> | All rights reserved | <span class="text-green-400 font-black">M@de</span> by Kokleng<span class="text-green-400">.</span></p>
+                    </div>
+                </div>
+            </footer>
+            <marquee bgcolor="#00bb86" derection="right" behavior="alternate">
+                <font size="4" color="white">    
+                 <<< Kokleng loy9 >>>
+                </font>
+            </marquee>
+    </section>
+
+    <script src="assets/script/script.js"></script>
+    <script src="assets/script/vue.js"></script>
+
+</body>
+
+</html>
